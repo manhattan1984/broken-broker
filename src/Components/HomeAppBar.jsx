@@ -41,7 +41,9 @@ const HomeAppBar = () => {
                 justifyContent="flex-end"
               >
                 {pages.map((page) => (
-                  <Button key={page}>{page}</Button>
+                  <Button color="secondary" key={page}>
+                    {page}
+                  </Button>
                 ))}
               </Grid>
             </Grid>
