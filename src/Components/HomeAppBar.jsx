@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Box,
   Button,
   Container,
   Grid,
@@ -7,21 +8,30 @@ import {
   Toolbar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../img/logo.svg";
 
-const pages = ["About", "Sign In", "Sign Up"];
+const pages = [
+  { page: "Sign In", link: "/signin" },
+  { page: "Sign Up", link: "/signup" },
+  { page: "About", link: "/about" },
+  { page: "My Profile", link: "/profile" },
+];
 
 const HomeAppBar = () => {
-  const toggleMenu = () => {};
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
   return (
     <>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Grid container>
-              <Grid item xs={6} md={3}>
+              <Grid item xs={6} md={3} component={NavLink} to="/">
                 <img src={Logo} className="appbar-logo" />
               </Grid>
               <Grid
@@ -40,8 +50,13 @@ const HomeAppBar = () => {
                 display={{ xs: "none", md: "flex" }}
                 justifyContent="flex-end"
               >
-                {pages.map((page) => (
-                  <Button color="secondary" key={page}>
+                {pages.map(({ page, link }) => (
+                  <Button
+                    color="secondary"
+                    component={NavLink}
+                    to={link}
+                    key={page}
+                  >
                     {page}
                   </Button>
                 ))}
@@ -50,6 +65,28 @@ const HomeAppBar = () => {
           </Toolbar>
         </Container>
       </AppBar>
+
+      {menuOpen ? (
+        <Box
+          sx={{ display: "flex", flexDirection: "column" }}
+          justifyContent="center"
+          alignItems="center"
+        >
+          {pages.map(({ page, link }) => (
+            <Button
+              color="secondary"
+              variant="outlined"
+              to={link}
+              component={NavLink}
+              key={page}
+              sx={{ width: "100%" }}
+              onClick={toggleMenu}
+            >
+              {page}
+            </Button>
+          ))}
+        </Box>
+      ) : null}
     </>
   );
 };
