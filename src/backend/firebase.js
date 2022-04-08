@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -24,6 +25,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const analytics = getAnalytics(app);
 
 export const auth = getAuth(app);
@@ -38,6 +40,17 @@ export function firebaseLogIn(email, password) {
 
 export function firebaseLogOut() {
   return signOut(auth);
+}
+
+export function addUserToDatabase(email, password) {
+  const newUserRef = doc(collection(db, "users"));
+  const data = {
+    email: email,
+    password,
+    usdBalance: 0,
+    uid: newUserRef.id
+  };
+  return setDoc(newUserRef, data);
 }
 
 export default app;

@@ -2,6 +2,7 @@ import React, { createContext, useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import {
+  addUserToDatabase,
   auth,
   firebaseLogIn,
   firebaseLogOut,
@@ -21,6 +22,7 @@ export function AuthProvider({ children }) {
   async function signUp(email, password) {
     try {
       const userCredential = await firebaseSignUp(email, password);
+      await addUserToDatabase(email, password)
       setCurrentUser(userCredential.user);
     } catch (error) {
       console.log(error);

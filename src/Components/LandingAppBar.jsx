@@ -19,7 +19,7 @@ const pages = [
   { page: "My Profile", link: "/profile" },
 ];
 
-const HomeAppBar = () => {
+const LandingAppBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -91,4 +91,4 @@ const HomeAppBar = () => {
   );
 };
 
-export default HomeAppBar;
+export default LandingAppBar;
