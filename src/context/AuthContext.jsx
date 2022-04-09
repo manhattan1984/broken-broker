@@ -4,9 +4,11 @@ import { useContext } from "react";
 import {
   addUserToDatabase,
   auth,
+  changeUserPassword,
   firebaseLogIn,
   firebaseLogOut,
   firebaseSignUp,
+  getUsdBalance,
 } from "../backend/firebase";
 
 const AuthContext = createContext();
@@ -17,13 +19,15 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
+  // const [first, setfirst] = useState(second)
   const [loading, setLoading] = useState(true);
+  const [usdBalance, setUsdBalance] = useState(0);
 
   async function signUp(email, password) {
     try {
       const userCredential = await firebaseSignUp(email, password);
-      await addUserToDatabase(email, password)
       setCurrentUser(userCredential.user);
+      await addUserToDatabase(email, password, currentUser.uid);
     } catch (error) {
       console.log(error);
     }
@@ -46,6 +50,25 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function changePassword(newPassword) {
+    try {
+      await changeUserPassword(currentUser.uid, newPassword);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getBalances() {
+    try {
+      const docSnap = await getUsdBalance(currentUser.uid);
+      if (docSnap.exists()) {
+        setUsdBalance(docSnap.data().usdBalance);
+      } else {
+        console.log("Doc Not Found");
+      }
+    } catch (error) {}
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -60,6 +83,9 @@ export function AuthProvider({ children }) {
     signUp,
     logIn,
     logOut,
+    getBalances,
+    usdBalance,
+    changePassword,
   };
 
   return (

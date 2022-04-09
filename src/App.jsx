@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./styles/styles.css";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import Profile from "./pages/Profile/Profile";
+import Account from "./pages/Profile/Account";
 import About from "./pages/About";
 import ProtectedRoute from "./Components/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthContext";
@@ -16,19 +16,25 @@ import Reinvest from "./pages/Profile/Reinvest";
 import InvestmentsHistory from "./pages/Profile/InvestmentsHistory";
 import TradeCenter from "./pages/Profile/TradeCenter";
 import TradeHistory from "./pages/Profile/TradeHistory";
+import { useEffect } from "react";
 
-const routes = [
-  { path: "home", element: <Home /> },
-  { path: "deposit", element: <Deposit /> },
-  { path: "withdraw", element: <Withdraw /> },
-  { path: "investments", element: <Investments /> },
-  { path: "reinvest", element: <Reinvest /> },
-  { path: "investments-history", element: <InvestmentsHistory /> },
-  { path: "trade-center", element: <TradeCenter /> },
-  { path: "trade-history", element: <TradeHistory /> },
-];
+const useScript = (url) => {
+  useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src = url;
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [url]);
+};
 
 function App() {
+  useScript("//code.tidio.co/zjedkxp16go8bymhrxcj6o1szjidkffp.js");
   return (
     <>
       <AuthProvider>
@@ -41,7 +47,7 @@ function App() {
 
             <Route path="about" element={<About />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="profile" element={<Profile />} />
+              <Route path="account" element={<Account />} />
               <Route path="home" element={<Home />} />
               <Route path="deposit" element={<Deposit />} />
               <Route path="withdraw" element={<Withdraw />} />

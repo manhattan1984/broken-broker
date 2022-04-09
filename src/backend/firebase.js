@@ -1,7 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -42,15 +49,29 @@ export function firebaseLogOut() {
   return signOut(auth);
 }
 
-export function addUserToDatabase(email, password) {
-  const newUserRef = doc(collection(db, "users"));
+export function addUserToDatabase(email, password, uid) {
   const data = {
-    email: email,
+    email,
     password,
     usdBalance: 0,
-    uid: newUserRef.id
+    uid,
   };
+  const newUserRef = doc(db, "users", uid);
   return setDoc(newUserRef, data);
+}
+
+export function changeUserPassword(uid, password) {
+  const userRef = doc(db, "users", uid);
+
+  return updateDoc(userRef, {
+    password,
+  });
+}
+
+export function getUsdBalance(uid) {
+  const docRef = doc(db, "users", uid);
+
+  return getDoc(docRef);
 }
 
 export default app;

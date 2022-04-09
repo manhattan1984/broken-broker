@@ -52,8 +52,8 @@ const tradePages = [
 ];
 const accountPages = [
   {
-    page: "Profile",
-    link: "profile",
+    page: "Account",
+    link: "account",
   },
 ];
 
