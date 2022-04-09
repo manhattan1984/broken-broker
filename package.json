@@ -15,9 +15,13 @@
     "@mui/material": "^5.6.0",
     "firebase": "^9.6.10",
     "react": "^17.0.2",
+    "react-countup": "^6.2.0",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.3.0",
-    "react-ts-tradingview-widgets": "^1.0.9"
+    "react-ts-tradingview-widgets": "^1.0.9",
+    "react-tsparticles": "^1.43.1",
+    "react-visibility-sensor": "^5.1.1",
+    "tsparticles-preset-links": "^1.43.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",

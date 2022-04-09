@@ -20,7 +20,7 @@ const SignIn = () => {
       setError("");
       setLoading(true);
       await logIn(emailRef.current.value, passwordRef.current.value);
-      navigate("/profile");
+      navigate("/home");
     } catch (error) {
       setError("Failed to sign in");
       console.log(error);

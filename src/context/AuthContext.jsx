@@ -19,7 +19,6 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
-  // const [first, setfirst] = useState(second)
   const [loading, setLoading] = useState(true);
   const [usdBalance, setUsdBalance] = useState(0);
 
@@ -60,9 +59,11 @@ export function AuthProvider({ children }) {
 
   async function getBalances() {
     try {
-      const docSnap = await getUsdBalance(currentUser.uid);
+      // const docSnap = await getUsdBalance(currentUser.uid);
+      setUsdBalance(1);
+
       if (docSnap.exists()) {
-        setUsdBalance(docSnap.data().usdBalance);
+        // setUsdBalance(docSnap.data().usdBalance);
       } else {
         console.log("Doc Not Found");
       }
