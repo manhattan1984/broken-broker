@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
+  addDoc,
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -55,6 +57,8 @@ export function addUserToDatabase(email, password, uid) {
     password,
     usdBalance: 0,
     uid,
+    investmentPlans: [],
+    withdrawals: [],
   };
   const newUserRef = doc(db, "users", uid);
   return setDoc(newUserRef, data);
@@ -72,6 +76,44 @@ export function getUsdBalance(uid) {
   const docRef = doc(db, "users", uid);
 
   return getDoc(docRef);
+}
+
+export function getInvestmentsHistroyFromDatabase(uid) {
+  const docRef = doc(db, "users", uid);
+
+  return getDoc(docRef);
+}
+
+export function addInvesmentToDatabase(uid, investmentPlan) {
+  const userRef = doc(db, "users", uid);
+
+  const date = new Date().toLocaleDateString();
+
+  return updateDoc(userRef, {
+    investmentPlans: arrayUnion({ investmentPlan, date, status: "Pending" }),
+  });
+}
+
+export function getWithdrawalsFromDatabase(uid) {
+  const docRef = doc(db, "users", uid);
+
+  return getDoc(docRef);
+}
+
+export function addWithdrawalToDatabase(uid, amount, currency, address) {
+  const userRef = doc(db, "users", uid);
+
+  const date = new Date().toLocaleDateString();
+
+  return updateDoc(userRef, {
+    withdrawals: arrayUnion({
+      currency,
+      amount,
+      address,
+      date,
+      status: "Pending",
+    }),
+  });
 }
 
 export default app;

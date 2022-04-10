@@ -11,15 +11,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../img/logo.svg";
+import { TickerTape } from "react-ts-tradingview-widgets";
 
-const pages = [
-  { page: "Sign In", link: "/signin" },
-  { page: "Sign Up", link: "/signup" },
-  { page: "About", link: "/about" },
-  { page: "My Profile", link: "/profile" },
-];
-
-const LandingAppBar = () => {
+const LandingAppBar = ({ pages }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {

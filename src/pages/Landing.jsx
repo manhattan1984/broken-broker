@@ -18,6 +18,11 @@ import LandingAppBar from "../Components/LandingAppBar";
 import "../styles/styles.css";
 import ReactVisibilitySensor from "react-visibility-sensor";
 import Logo from "../img/logo.svg";
+import lists from "./constants/lists";
+import Investments from "./Profile/Investments";
+import { NavLink } from "react-router-dom";
+import InvestmentPlans from "../Components/InvestmentPlans";
+// import InvestmentPlans from "../Components/InvestmentPlans";
 
 const Hero = () => {
   return (
@@ -209,91 +214,6 @@ const ProfitCalculator = () => {
   );
 };
 
-const InvestmentPlans = () => {
-  const plans = [
-    {
-      title: "Expert Plan",
-      percent: "40%",
-      time: "Monthly / 1 Time",
-      min: "$100,000",
-      max: "$500,000,000",
-    },
-    {
-      title: "Pro Plan",
-      percent: "25%",
-      time: "20 Days / 1 Time",
-      min: "$10,000",
-      max: "$100,000",
-    },
-    {
-      title: "Advanced Plan",
-      percent: "5%",
-      time: "10 Days / 1 Time",
-      min: "$5,000",
-      max: "$10,000",
-    },
-    {
-      title: "Amateur Plan",
-      percent: "10%",
-      time: "3 Days / 1 Time",
-      min: "$1,000",
-      max: "$5,000",
-    },
-    {
-      title: "Beginner Plan",
-      percent: "5%",
-      time: "Daily / 1 Time",
-      min: "$100",
-      max: "$1,000",
-    },
-  ];
-
-  const InvestmentItem = ({ title, percent, time, min, max }) => {
-    return (
-      <Grid item xs={12} md={6} lg={4}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6">{title}</Typography>
-            <Typography variant="h5">{percent}</Typography>
-            <Typography variant="body1">{time}</Typography>
-            <Typography variant="body2">Capital Returns</Typography>
-            <Typography variant="body2">24/7 Support</Typography>
-
-            <Box>
-              <Typography variant="body1">Min: {min}</Typography>
-              <Typography variant="body1">Max: {max}</Typography>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <Button>Invest Now</Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    );
-  };
-  return (
-    <Container align="center">
-      <Typography variant="h4">Best Investment Plans</Typography>
-      <Typography variant="body1">
-        Take a look at our best investment plans where you will get the best
-        profits.
-      </Typography>
-      <Grid container spacing={2}>
-        {plans.map(({ title, percent, time, min, max }, index) => (
-          <InvestmentItem
-            title={title}
-            percent={percent}
-            time={time}
-            min={min}
-            max={max}
-            key={index}
-          />
-        ))}
-      </Grid>
-    </Container>
-  );
-};
-
 const Reasons = () => {
   const reasons = [
     {
@@ -344,7 +264,7 @@ const Reasons = () => {
 
       <Grid container spacing={2}>
         {reasons.map(({ title, body }, index) => (
-          <ReasonItem title={title} body={body} key={index}/>
+          <ReasonItem title={title} body={body} key={index} />
         ))}
       </Grid>
     </Container>
@@ -380,15 +300,20 @@ const Footer = () => {
 const Landing = () => {
   return (
     <>
-      <LandingAppBar />
-      <TickerTape colorTheme="dark" />
+      <LandingAppBar pages={lists.homePages} />
       <Container>
         <Hero />
         <Features />
         <Statistics />
         <Profit />
         <ProfitCalculator />
-        <InvestmentPlans />
+        <InvestmentPlans>
+          <Typography variant="h4">Best Investment Plans</Typography>
+          <Typography variant="body1">
+            Take a look at our best investment plans where you will get the best
+            profits.
+          </Typography>
+        </InvestmentPlans>
         <Reasons />
         {/* Join Us */}
         <Container align="center">

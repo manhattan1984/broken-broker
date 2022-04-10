@@ -8,7 +8,9 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LandingAppBar from "../../Components/LandingAppBar";
 import { useAuth } from "../../context/AuthContext";
+import lists from "../constants/lists";
 
 const BalanceItem = ({ currency, conversion }) => {
   return (
@@ -66,12 +68,17 @@ const Home = () => {
   useEffect(() => {
     getBalances();
   }, []);
+
   return (
     <>
+      <LandingAppBar pages={lists.profilePages} />
       <Box display={"flex"} justifyContent="space-between">
-        <Typography variant="h6">Welcome {currentUser.email}</Typography>
+        <Typography variant="h5">Welcome {currentUser.email}</Typography>
         <Button onClick={handleLogOut}>Log Out</Button>
       </Box>
+      <Typography variant="h4" color="primary">
+        Your Balances
+      </Typography>
       <Grid container spacing={1}>
         {balances.map(({ currency, conversion }, index) => (
           <BalanceItem
