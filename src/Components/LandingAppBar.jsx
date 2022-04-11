@@ -10,9 +10,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "../img/logo.svg";
-import { TickerTape } from "react-ts-tradingview-widgets";
-import { darkTheme } from "../styles/styles";
+import Logo from "../assets/img/logo.svg";
 
 const LandingAppBar = ({ pages }) => {
   const [menuOpen, setMenuOpen] = useState(false);

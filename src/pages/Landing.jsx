@@ -4,25 +4,39 @@ import {
   Card,
   CardActions,
   CardContent,
+  CardMedia,
   Container,
   Grid,
+  Icon,
+  Link,
   MenuItem,
+  SvgIcon,
   TextField,
   Typography,
 } from "@mui/material";
 import CountUp from "react-countup";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { TickerTape } from "react-ts-tradingview-widgets";
 import Particles from "react-tsparticles";
 import { loadLinksPreset } from "tsparticles-preset-links";
 import LandingAppBar from "../Components/LandingAppBar";
 import "../styles/styles.css";
 import ReactVisibilitySensor from "react-visibility-sensor";
-import Logo from "../img/logo.svg";
 import lists from "./constants/lists";
 import Investments from "./Profile/Investments";
 import { NavLink } from "react-router-dom";
 import InvestmentPlans from "../Components/InvestmentPlans";
+import { Player } from "@lottiefiles/react-lottie-player";
+import FeatureIcon from "../assets/lottie/features-icon.json";
+import DownArrow from "../assets/lottie/down-arrow.json";
+import PublicIcon from "@mui/icons-material/Public";
+import {
+  AttachMoney,
+  CurrencyBitcoin,
+  EnhancedEncryption,
+  HandshakeRounded,
+  VerifiedUser,
+} from "@mui/icons-material";
 // import InvestmentPlans from "../Components/InvestmentPlans";
 
 const Hero = () => {
@@ -80,8 +94,14 @@ const Features = () => {
   const FeatureItem = ({ title, body }) => {
     return (
       <Grid item xs={12} md={6} lg={3} textAlign="left">
-        <Box>
-          <Typography variant="h5" color="text.secondary">
+        <Box display="flex">
+          <Player
+            autoplay
+            loop
+            src={FeatureIcon}
+            style={{ height: "30px", width: "30px" }}
+          />
+          <Typography ml={1} variant="h5" color="text.secondary">
             {title}
           </Typography>
         </Box>
@@ -150,7 +170,13 @@ const Statistics = () => {
       <Typography variant="body1">
         Take a look at our user statistics
       </Typography>
-      <Grid container spacing={1} sx={{ my: 1 }}>
+      <Grid
+        container
+        spacing={1}
+        sx={{ my: 1 }}
+        alignItems="center"
+        justifyContent="center"
+      >
         {statistics.map(({ amount, title }, index) => (
           <StatisticsItem amount={amount} title={title} key={index} />
         ))}
@@ -179,7 +205,7 @@ const Profit = () => {
     },
   ];
 
-  const ProfitItem = ({ title, body }) => {
+  const ProfitItem = ({ title, body, showArrow }) => {
     return (
       <Grid item xs={12} md={6} lg={4}>
         <Card>
@@ -190,6 +216,9 @@ const Profit = () => {
             <Typography variant="body1">{body}</Typography>
           </CardContent>
         </Card>
+        {showArrow ? (
+          <Player src={DownArrow} style={{ height: "30px" }} autoplay loop />
+        ) : null}
       </Grid>
     );
   };
@@ -204,7 +233,7 @@ const Profit = () => {
       </Typography>
       <Grid container spacing={2}>
         {paths.map(({ title, body }, index) => (
-          <ProfitItem title={title} body={body} key={index} />
+          <ProfitItem title={title} body={body} key={index} showArrow={paths.length !== index+1}/>
         ))}
       </Grid>
     </Container>
@@ -212,9 +241,19 @@ const Profit = () => {
 };
 
 const ProfitCalculator = () => {
+  const [profit, setProfit] = useState(0);
+  const [percent, setPercent] = useState(0);
+
+  const planRef = useRef();
+  const amountRef = useRef();
+
+  function calculateProfit() {
+    const amount = +amountRef.current.value;
+    setProfit(amount + (percent / 100) * amount);
+  }
   return (
-    <Container align="center">
-      <Typography variant="h4" color="primary">
+    <Container align="center" sx={{mt:2}}>
+      <Typography variant="h4" color="primary" gutterBottom>
         Profit Calculator
       </Typography>
       <Typography variant="body1">
@@ -222,23 +261,46 @@ const ProfitCalculator = () => {
         make mistakes. Check the calculation and you will get as our calculator
         says.
       </Typography>
-      <Card>
+      <Card sx={{ my: 2 }}>
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xs={12} lg={4}>
-              <TextField fullWidth label="Plan" select>
-                {/* {lists.investmentPlans.map(({ name, percent }, index) => (
-                  <MenuItem key={index} value={name}>
-                    {name}
+              <TextField
+                fullWidth
+                label="Plan"
+                select
+                color="secondary"
+                inputRef={planRef}
+                onChange={calculateProfit}
+              >
+                {lists.investmentPlans.map(({ title, percent }, index) => (
+                  <MenuItem
+                    onClick={() => {
+                      setPercent(percent);
+                    }}
+                    key={index}
+                    value={title}
+                  >
+                    {title}
                   </MenuItem>
-                ))} */}
+                ))}
               </TextField>
             </Grid>
             <Grid item xs={12} lg={4}>
-              <TextField fullWidth label="Invest Amount" />
+              <TextField
+                fullWidth
+                label="Invest Amount"
+                type={"number"}
+                onChange={calculateProfit}
+                inputRef={amountRef}
+                color="secondary"
+              />
             </Grid>
             <Grid item xs={12} lg={4}>
-              <TextField fullWidth label="Profit" />
+              <Typography>Your Profit:</Typography>
+              <Typography variant="h3" color="secondary">
+                {profit}
+              </Typography>
             </Grid>
           </Grid>
         </CardContent>
@@ -252,35 +314,44 @@ const Reasons = () => {
     {
       title: "Global",
       body: " We are an international company having client from different countries around the world. ",
+      icon: PublicIcon,
     },
     {
       title: "Crypto",
       body: " Our platform supports all types of cryptocurrency having an easy investment system. ",
+      icon: CurrencyBitcoin,
     },
     {
       title: "Reliable",
       body: " We are very reliable as a huge number of people trust us. We conduct safe and secure services. ",
+      icon: HandshakeRounded,
     },
     {
       title: "Certified",
       body: " We are a certified company doing legal business in the legal field. We operate international business. ",
+      icon: VerifiedUser,
     },
     {
       title: "Secure",
       body: " We constantly work on improving our system and level of our security to minimize any potential risks. ",
+      icon: EnhancedEncryption,
     },
     {
       title: "Profitable",
       body: " Our professional traders will utilize your money making sure to get a good profit for you. ",
+      icon: AttachMoney,
     },
   ];
 
-  const ReasonItem = ({ title, body }) => {
+  const ReasonItem = ({ title, body, icon }) => {
     return (
       <Grid item xs={12} md={6} lg={4}>
         <Card>
           <CardContent>
-            <Typography variant="h6">{title}</Typography>
+            <SvgIcon component={icon} fontSize="large" />
+            <Typography variant="h6" color="secondary">
+              {title}
+            </Typography>
             <Typography variant="body1">{body}</Typography>
           </CardContent>
         </Card>
@@ -288,16 +359,18 @@ const Reasons = () => {
     );
   };
   return (
-    <Container align="center">
-      <Typography variant="h4">Reason To Choose Us</Typography>
+    <Container align="center" sx={{ my: 2 }}>
+      <Typography variant="h4" gutterBottom color="primary">
+        Why To Choose Us
+      </Typography>
       <Typography variant="body1">
         Our goal is to utilize our investors money and provide a source of high
         income for them while minimizing the any possibility of risk.
       </Typography>
 
-      <Grid container spacing={2}>
-        {reasons.map(({ title, body }, index) => (
-          <ReasonItem title={title} body={body} key={index} />
+      <Grid container spacing={2} mt={1}>
+        {reasons.map(({ title, body, icon }, index) => (
+          <ReasonItem title={title} icon={icon} body={body} key={index} />
         ))}
       </Grid>
     </Container>
@@ -305,17 +378,23 @@ const Reasons = () => {
 };
 
 const Footer = () => {
-  const links = [{ name: "Home" }, { name: "Privacy" }, { name: "Rules" }];
+  const links = [
+    { name: "Home", link: "/home" },
+    { name: "About", link: "/about" },
+    { name: "Privacy Policy", link: "/" },
+  ];
   return (
     <>
       <Container align="center" maxWidth={"md"}>
-        <Grid container spacing={2}>
-          {links.map(({ name }, index) => (
+        {/* <Grid container spacing={2}>
+          {links.map(({ name, link }, index) => (
             <Grid item xs={12} md={4} key={index}>
-              {name}
+              <Button component={NavLink} to={link}>
+                {name}
+              </Button>
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
 
         <Typography variant="caption">
           Join the team of our holding company and take part in investment
@@ -341,7 +420,9 @@ const Landing = () => {
         <Profit />
         <ProfitCalculator />
         <InvestmentPlans>
-          <Typography variant="h4">Best Investment Plans</Typography>
+          <Typography variant="h4" color="primary">
+            Best Investment Plans
+          </Typography>
           <Typography variant="body1">
             Take a look at our best investment plans where you will get the best
             profits.
@@ -350,11 +431,20 @@ const Landing = () => {
         <Reasons />
         {/* Join Us */}
         <Container align="center">
-          <Typography variant="h4">Join With Us</Typography>
+          <Typography variant="h4" gutterBottom>
+            Join With Us
+          </Typography>
           <Typography variant="body1">
             Want to be a part of our community? Join us today.
           </Typography>
-          <Button variant="contained">SIGN UP</Button>
+          <Button
+            sx={{ my: 2 }}
+            variant="contained"
+            to="/signup"
+            component={NavLink}
+          >
+            Sign Up
+          </Button>
         </Container>
         {/* End Join Us */}
         <Footer />

@@ -1,1 +1,1 @@
-export { default as images } from "./lists";
+export { default as lists } from "./lists";

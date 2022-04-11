@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import LandingAppBar from "../../Components/LandingAppBar";
 import { useAuth } from "../../context/AuthContext";
 import lists from "../constants/lists";
+import { ProfileListItem } from "./Investments";
 
 const WithdrawalItem = ({ currency, date, amount, address, status }) => {
   return (
@@ -104,18 +105,20 @@ const Withdraw = () => {
             Withdrawal History
           </Typography>
         </Box>
-        {withdrawals.map(
-          ({ currency, amount, date, address, status }, index) => (
-            <WithdrawalItem
-              currency={currency}
-              amount={amount}
-              date={date}
-              address={address}
-              status={status}
-              key={index}
-            />
-          )
-        )}
+        <Grid container spacing={1}>
+          {withdrawals.map(
+            ({ currency, amount, date, address, status }, index) => (
+              <ProfileListItem
+                currency={currency}
+                amount={amount}
+                date={date}
+                address={address}
+                status={status}
+                key={index}
+              />
+            )
+          )}
+        </Grid>
       </Container>
     </>
   );

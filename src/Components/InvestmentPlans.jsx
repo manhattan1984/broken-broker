@@ -22,8 +22,10 @@ const InvestmentPlans = ({ children }) => {
       <Grid item xs={12} md={6} lg={4}>
         <Card>
           <CardContent>
-            <Typography variant="h6">{title}</Typography>
-            <Typography variant="h5">{percent}</Typography>
+            <Typography variant="h4" color="secondary">
+              {title}
+            </Typography>
+            <Typography variant="h5">{percent}%</Typography>
             <Typography variant="body1">{time}</Typography>
             <Typography variant="body2">Capital Returns</Typography>
             <Typography variant="body2">24/7 Support</Typography>
@@ -38,6 +40,7 @@ const InvestmentPlans = ({ children }) => {
               component={NavLink}
               to="/deposit"
               onClick={handleInvestButton}
+              color="secondary"
             >
               Invest Now
             </Button>
@@ -49,7 +52,7 @@ const InvestmentPlans = ({ children }) => {
   return (
     <Container align="center">
       {children}
-      <Grid container spacing={2}>
+      <Grid container spacing={2} my={1}>
         {lists.investmentPlans.map(
           ({ title, percent, time, min, max }, index) => (
             <InvestmentItem
