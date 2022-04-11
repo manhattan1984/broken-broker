@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../img/logo.svg";
 import { TickerTape } from "react-ts-tradingview-widgets";
+import { darkTheme } from "../styles/styles";
 
 const LandingAppBar = ({ pages }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -45,7 +46,12 @@ const LandingAppBar = ({ pages }) => {
                 justifyContent="flex-end"
               >
                 {pages.map(({ page, link }) => (
-                  <Button component={NavLink} to={link} key={page}>
+                  <Button
+                    component={NavLink}
+                    to={link}
+                    key={page}
+                    color="secondary"
+                  >
                     {page}
                   </Button>
                 ))}
@@ -57,14 +63,16 @@ const LandingAppBar = ({ pages }) => {
 
       {menuOpen ? (
         <Box
-          sx={{ display: "flex", flexDirection: "column" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
           justifyContent="center"
           alignItems="center"
         >
           {pages.map(({ page, link }) => (
             <Button
               color="secondary"
-              variant="outlined"
               to={link}
               component={NavLink}
               key={page}

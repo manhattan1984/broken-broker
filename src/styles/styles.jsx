@@ -1,22 +1,22 @@
 import styled from "@emotion/styled";
-import { Button, TextField } from "@mui/material";
-
-import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
+import { Button, createTheme, TextField } from "@mui/material";
 
 export const themeOptions = {
   palette: {
-    type: "dark",
+    mode: "dark",
     primary: {
       main: "#039be5",
     },
     secondary: {
-      main: "#ffff8d",
+      main: '#ffd54f',
     },
   },
   typography: {
     fontFamily: "Montserrat",
   },
 };
+
+export const darkTheme = createTheme(themeOptions);
 
 export const SignUpTextField = styled(TextField)({
   width: "100%",

@@ -6,6 +6,7 @@ import {
   CardContent,
   Container,
   Grid,
+  MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
@@ -28,15 +29,21 @@ const Hero = () => {
   return (
     <Container align="center">
       {/* <Particles options={options} init={initialize} /> */}
-      <Typography variant="h3">
+      <Typography variant="h3" gutterBottom color="primary">
         Crypto Currency Investment At Its Best
       </Typography>
       <Typography variant="body1">
         A reliable and professional company where you can invest your money and
         we will utilize it and offer you the best returns of your investment.
       </Typography>
-      <Button color="primary" variant="contained">
-        SIGN UP
+      <Button
+        color="secondary"
+        variant="outlined"
+        sx={{ my: 1 }}
+        component={NavLink}
+        to="/signup"
+      >
+        Get Started
       </Button>
     </Container>
   );
@@ -74,7 +81,9 @@ const Features = () => {
     return (
       <Grid item xs={12} md={6} lg={3} textAlign="left">
         <Box>
-          <Typography variant="h5">{title}</Typography>
+          <Typography variant="h5" color="text.secondary">
+            {title}
+          </Typography>
         </Box>
         <Typography>{body}</Typography>
       </Grid>
@@ -83,13 +92,15 @@ const Features = () => {
   return (
     <Container align="center">
       <Box>
-        <Typography variant="h4">Our Features</Typography>
+        <Typography variant="h4" gutterBottom color="primary">
+          Our Features
+        </Typography>
         <Typography variant="body1">
           We will utilize your money providing a source of high income while
           minimizing the any possibility of risk in a very secure way.
         </Typography>
       </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mt={2}>
         {features.map(({ title, body }, index) => (
           <FeatureItem title={title} body={body} key={index} />
         ))}
@@ -117,23 +128,33 @@ const Statistics = () => {
   const StatisticsItem = ({ amount, title }) => {
     return (
       <Grid item xs={12} md={6} lg={3}>
-        <Box>
-          <Typography>{amount}</Typography>
-          <Typography variant="subtitle1">{title}</Typography>
-        </Box>
+        <Card>
+          <CardContent>
+            <Typography variant="h3" color="text.secondary">
+              {amount}
+            </Typography>
+            <Typography variant="subtitle1" color="secondary">
+              {title}
+            </Typography>
+          </CardContent>
+        </Card>
       </Grid>
     );
   };
 
   return (
-    <Container>
-      <Typography variant="h5">Our Statistics</Typography>
+    <Container sx={{ my: 2 }} align="center">
+      <Typography variant="h4" gutterBottom color={"primary"}>
+        Our Statistics
+      </Typography>
       <Typography variant="body1">
         Take a look at our user statistics
       </Typography>
-      {statistics.map(({ amount, title }, index) => (
-        <StatisticsItem amount={amount} title={title} key={index} />
-      ))}
+      <Grid container spacing={1} sx={{ my: 1 }}>
+        {statistics.map(({ amount, title }, index) => (
+          <StatisticsItem amount={amount} title={title} key={index} />
+        ))}
+      </Grid>
     </Container>
   );
 };
@@ -163,7 +184,9 @@ const Profit = () => {
       <Grid item xs={12} md={6} lg={4}>
         <Card>
           <CardContent>
-            <Typography variant="h6">{title}</Typography>
+            <Typography variant="h6" color="secondary">
+              {title}
+            </Typography>
             <Typography variant="body1">{body}</Typography>
           </CardContent>
         </Card>
@@ -173,7 +196,9 @@ const Profit = () => {
 
   return (
     <Container align="center">
-      <Typography variant="h4">How To Get Profit</Typography>
+      <Typography variant="h4" color="primary">
+        How To Get Profit
+      </Typography>
       <Typography variant="subtitle1">
         We utilize your money and provide a source of high income.
       </Typography>
@@ -189,7 +214,9 @@ const Profit = () => {
 const ProfitCalculator = () => {
   return (
     <Container align="center">
-      <Typography variant="h4">Profit Calculator</Typography>
+      <Typography variant="h4" color="primary">
+        Profit Calculator
+      </Typography>
       <Typography variant="body1">
         You must know the calculation before investing in any plan, so you never
         make mistakes. Check the calculation and you will get as our calculator
@@ -199,7 +226,13 @@ const ProfitCalculator = () => {
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xs={12} lg={4}>
-              <TextField fullWidth label="Plan" />
+              <TextField fullWidth label="Plan" select>
+                {/* {lists.investmentPlans.map(({ name, percent }, index) => (
+                  <MenuItem key={index} value={name}>
+                    {name}
+                  </MenuItem>
+                ))} */}
+              </TextField>
             </Grid>
             <Grid item xs={12} lg={4}>
               <TextField fullWidth label="Invest Amount" />

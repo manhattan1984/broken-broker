@@ -16,7 +16,8 @@ import { useEffect } from "react";
 import { TickerTape } from "react-ts-tradingview-widgets";
 import Review from "./pages/Review";
 import { ThemeProvider } from "@emotion/react";
-import { themeOptions } from "./styles/styles";
+import { darkTheme } from "./styles/styles";
+import { CssBaseline } from "@mui/material";
 
 const useScript = (url) => {
   useEffect(() => {
@@ -37,10 +38,11 @@ function App() {
   useScript("//code.tidio.co/zjedkxp16go8bymhrxcj6o1szjidkffp.js");
   return (
     <>
-      <ThemeProvider theme={themeOptions}>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline enableColorScheme/>
         <AuthProvider>
           <BrowserRouter>
-            <TickerTape />
+            <TickerTape colorTheme="dark"/>
 
             <Routes>
               <Route path="/" element={<Landing />} />
