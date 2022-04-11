@@ -1,3 +1,4 @@
+import { useSnackbar } from "notistack";
 import React, { createContext, useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
@@ -112,6 +113,8 @@ export function AuthProvider({ children }) {
   async function addInvestment(investmentPlan) {
     try {
       await addInvesmentToDatabase(getUid(), investmentPlan);
+      const { enqueueSnackbar } = useSnackbar();
+      enqueueSnackbar("Investment Added Successfully", { variant: "success" });
     } catch (error) {
       console.log(error);
     }

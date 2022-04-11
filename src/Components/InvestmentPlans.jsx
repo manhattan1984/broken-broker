@@ -8,6 +8,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import lists from "../pages/constants/lists";
@@ -15,9 +16,11 @@ import lists from "../pages/constants/lists";
 const InvestmentPlans = ({ children }) => {
   const InvestmentItem = ({ title, percent, time, min, max }) => {
     const { addInvestment } = useAuth();
+
     const handleInvestButton = () => {
       addInvestment(title);
     };
+
     return (
       <Grid item xs={12} md={6} lg={4}>
         <Card>

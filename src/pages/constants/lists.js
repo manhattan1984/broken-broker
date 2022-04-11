@@ -2,13 +2,12 @@ const profilePages = [
   { page: "Home", link: "/home" },
   { page: "Deposit", link: "/deposit" },
   { page: "Withdraw", link: "/withdraw" },
-  { page: "Account", link: "/account" },
   { page: "Investments", link: "/investments" },
+  // { page: "Account", link: "/account" },
   // { page: "Log Out", link: "/" },
 ];
 
 const homePages = [
-  // { page: "Investments", link: "/deposit" },
   { page: "Sign Up", link: "/signup" },
   { page: "Sign In", link: "/signin" },
 ];

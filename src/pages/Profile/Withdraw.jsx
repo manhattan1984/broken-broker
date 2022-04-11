@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import LandingAppBar from "../../Components/LandingAppBar";
@@ -31,6 +32,7 @@ const WithdrawalItem = ({ currency, date, amount, address, status }) => {
 const Withdraw = () => {
   const { withdrawals, getWithdrawals, addWithdrawal } = useAuth();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const currencyRef = useRef();
   const amountRef = useRef();
@@ -43,6 +45,7 @@ const Withdraw = () => {
       addressRef.current.value
     );
 
+    enqueueSnackbar("Withdraw Request Sent", { variant: "success" });
     navigate("/home");
   };
 

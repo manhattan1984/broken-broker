@@ -18,6 +18,7 @@ import Review from "./pages/Review";
 import { ThemeProvider } from "@emotion/react";
 import { darkTheme } from "./styles/styles";
 import { CssBaseline } from "@mui/material";
+import { SnackbarProvider } from "notistack";
 
 const useScript = (url) => {
   useEffect(() => {
@@ -39,28 +40,30 @@ function App() {
   return (
     <>
       <ThemeProvider theme={darkTheme}>
-        <CssBaseline enableColorScheme/>
-        <AuthProvider>
-          <BrowserRouter>
-            <TickerTape colorTheme="dark"/>
+        <CssBaseline enableColorScheme />
+        <SnackbarProvider maxSnack={2}>
+          <AuthProvider>
+            <BrowserRouter>
+              <TickerTape colorTheme="dark" />
 
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="signin" element={<SignIn />} />
-              <Route path="signup" element={<SignUp />} />
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="signin" element={<SignIn />} />
+                <Route path="signup" element={<SignUp />} />
 
-              <Route path="about" element={<About />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="account" element={<Account />} />
-                <Route path="home" element={<Home />} />
-                <Route path="deposit" element={<Deposit />} />
-                <Route path="withdraw" element={<Withdraw />} />
-                <Route path="investments" element={<Investments />} />
-              </Route>
-              <Route path="review" element={<Review />} />
-            </Routes>
-          </BrowserRouter>
-        </AuthProvider>
+                <Route path="about" element={<About />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="account" element={<Account />} />
+                  <Route path="home" element={<Home />} />
+                  <Route path="deposit" element={<Deposit />} />
+                  <Route path="withdraw" element={<Withdraw />} />
+                  <Route path="investments" element={<Investments />} />
+                </Route>
+                <Route path="review" element={<Review />} />
+              </Routes>
+            </BrowserRouter>
+          </AuthProvider>
+        </SnackbarProvider>
       </ThemeProvider>
     </>
   );

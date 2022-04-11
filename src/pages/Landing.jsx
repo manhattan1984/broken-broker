@@ -2,13 +2,9 @@ import {
   Box,
   Button,
   Card,
-  CardActions,
   CardContent,
-  CardMedia,
   Container,
   Grid,
-  Icon,
-  Link,
   MenuItem,
   SvgIcon,
   TextField,
@@ -16,14 +12,9 @@ import {
 } from "@mui/material";
 import CountUp from "react-countup";
 import React, { useRef, useState } from "react";
-import { TickerTape } from "react-ts-tradingview-widgets";
-import Particles from "react-tsparticles";
-import { loadLinksPreset } from "tsparticles-preset-links";
 import LandingAppBar from "../Components/LandingAppBar";
-import "../styles/styles.css";
 import ReactVisibilitySensor from "react-visibility-sensor";
 import lists from "./constants/lists";
-import Investments from "./Profile/Investments";
 import { NavLink } from "react-router-dom";
 import InvestmentPlans from "../Components/InvestmentPlans";
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -37,7 +28,7 @@ import {
   HandshakeRounded,
   VerifiedUser,
 } from "@mui/icons-material";
-// import InvestmentPlans from "../Components/InvestmentPlans";
+import "../styles/styles.css";
 
 const Hero = () => {
   return (
@@ -132,7 +123,7 @@ const Features = () => {
 const Statistics = () => {
   const statistics = [
     {
-      amount: 1_000_000,
+      amount: 10_000_000,
       title: "Total Deposited",
     },
     {
@@ -142,17 +133,34 @@ const Statistics = () => {
     {
       amount: 340_443,
       title: "Total Users",
+      isUsers: true,
     },
   ];
 
-  const StatisticsItem = ({ amount, title }) => {
+  const StatisticsItem = ({ amount, title, isUsers }) => {
     return (
       <Grid item xs={12} md={6} lg={3}>
         <Card>
           <CardContent>
-            <Typography variant="h3" color="text.secondary">
-              {amount}
-            </Typography>
+            <CountUp
+              end={amount}
+              redraw={true}
+              separator=","
+              prefix={isUsers ? "" : "$"}
+            >
+              {({ countUpRef, start }) => (
+                <ReactVisibilitySensor onChange={start} delayCall>
+                  <Typography
+                    variant="h3"
+                    ref={countUpRef}
+                    color="text.secondary"
+                  >
+                    {amount}
+                  </Typography>
+                </ReactVisibilitySensor>
+              )}
+            </CountUp>
+
             <Typography variant="subtitle1" color="secondary">
               {title}
             </Typography>
@@ -177,8 +185,13 @@ const Statistics = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {statistics.map(({ amount, title }, index) => (
-          <StatisticsItem amount={amount} title={title} key={index} />
+        {statistics.map(({ amount, title, isUsers }, index) => (
+          <StatisticsItem
+            amount={amount}
+            title={title}
+            isUsers={isUsers}
+            key={index}
+          />
         ))}
       </Grid>
     </Container>
@@ -233,7 +246,12 @@ const Profit = () => {
       </Typography>
       <Grid container spacing={2}>
         {paths.map(({ title, body }, index) => (
-          <ProfitItem title={title} body={body} key={index} showArrow={paths.length !== index+1}/>
+          <ProfitItem
+            title={title}
+            body={body}
+            key={index}
+            showArrow={paths.length !== index + 1}
+          />
         ))}
       </Grid>
     </Container>
@@ -252,7 +270,7 @@ const ProfitCalculator = () => {
     setProfit(amount + (percent / 100) * amount);
   }
   return (
-    <Container align="center" sx={{mt:2}}>
+    <Container align="center" sx={{ mt: 2 }}>
       <Typography variant="h4" color="primary" gutterBottom>
         Profit Calculator
       </Typography>
