@@ -9,10 +9,8 @@ import {
   firebaseLogIn,
   firebaseLogOut,
   firebaseSignUp,
-  getUsdBalance,
-  getInvestmentsHistroyFromDatabase,
-  getWithdrawalsFromDatabase,
   addWithdrawalToDatabase,
+  getUserDetails,
 } from "../backend/firebase";
 
 const AuthContext = createContext();
@@ -27,6 +25,14 @@ export function AuthProvider({ children }) {
   const [usdBalance, setUsdBalance] = useState(0);
   const [investmentHistory, setInvestmentHistory] = useState([]);
   const [withdrawals, setWithdrawals] = useState([]);
+
+  function getData(docSnap) {
+    return docSnap.data();
+  }
+
+  function getUid() {
+    return currentUser.uid;
+  }
 
   async function signUp(email, password) {
     try {
@@ -57,7 +63,7 @@ export function AuthProvider({ children }) {
 
   async function changePassword(newPassword) {
     try {
-      await changeUserPassword(currentUser.uid, newPassword);
+      await changeUserPassword(getUid(), newPassword);
     } catch (error) {
       console.log(error);
     }
@@ -65,11 +71,10 @@ export function AuthProvider({ children }) {
 
   async function getBalances() {
     try {
-      const docSnap = await getUsdBalance(currentUser.uid);
-      // setUsdBalance(1);
+      const docSnap = await getUserDetails(getUid());
 
       if (docSnap.exists()) {
-        setUsdBalance(docSnap.data().usdBalance);
+        setUsdBalance(getData(docSnap).usdBalance);
       } else {
         console.log("Doc Not Found");
       }
@@ -78,9 +83,9 @@ export function AuthProvider({ children }) {
 
   async function getInvestmentsHistory() {
     try {
-      const docSnap = await getInvestmentsHistroyFromDatabase(currentUser.uid);
+      const docSnap = await getUserDetails(getUid());
       if (docSnap.exists()) {
-        setInvestmentHistory(docSnap.data().investmentPlans);
+        setInvestmentHistory(getData(docSnap).investmentPlans);
       } else {
         console.log("Doc Not Found");
       }
@@ -90,9 +95,23 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function getAuthorized() {
+    try {
+      const docSnap = await getUserDetails(getUid());
+      if (docSnap.exists()) {
+        const isAuthorized = getData(docSnap).authorized;
+        return isAuthorized;
+      } else {
+        console.log("Doc Not Found");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function addInvestment(investmentPlan) {
     try {
-      await addInvesmentToDatabase(currentUser.uid, investmentPlan);
+      await addInvesmentToDatabase(getUid(), investmentPlan);
     } catch (error) {
       console.log(error);
     }
@@ -100,9 +119,9 @@ export function AuthProvider({ children }) {
 
   async function getWithdrawals() {
     try {
-      const docSnap = await getWithdrawalsFromDatabase(currentUser.uid);
+      const docSnap = await getUserDetails(getUid());
       if (docSnap.exists()) {
-        setWithdrawals(docSnap.data().withdrawals);
+        setWithdrawals(getData(docSnap).withdrawals);
       } else {
         console.log("Doc Not Found");
       }
@@ -113,7 +132,7 @@ export function AuthProvider({ children }) {
 
   async function addWithdrawal(amount, currency, address) {
     try {
-      await addWithdrawalToDatabase(currentUser.uid, amount, currency, address);
+      await addWithdrawalToDatabase(getUid(), amount, currency, address);
     } catch (error) {}
   }
 
@@ -140,6 +159,7 @@ export function AuthProvider({ children }) {
     withdrawals,
     getWithdrawals,
     addWithdrawal,
+    getAuthorized,
   };
 
   return (

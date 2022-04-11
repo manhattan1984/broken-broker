@@ -14,6 +14,9 @@ import Investments from "./pages/Profile/Investments";
 
 import { useEffect } from "react";
 import { TickerTape } from "react-ts-tradingview-widgets";
+import Review from "./pages/Review";
+import { ThemeProvider } from "@emotion/react";
+import { themeOptions } from "./styles/styles";
 
 const useScript = (url) => {
   useEffect(() => {
@@ -34,26 +37,29 @@ function App() {
   useScript("//code.tidio.co/zjedkxp16go8bymhrxcj6o1szjidkffp.js");
   return (
     <>
-      <AuthProvider>
-        <BrowserRouter>
-          <TickerTape />
+      <ThemeProvider theme={themeOptions}>
+        <AuthProvider>
+          <BrowserRouter>
+            <TickerTape />
 
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="signin" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="signin" element={<SignIn />} />
+              <Route path="signup" element={<SignUp />} />
 
-            <Route path="about" element={<About />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="account" element={<Account />} />
-              <Route path="home" element={<Home />} />
-              <Route path="deposit" element={<Deposit />} />
-              <Route path="withdraw" element={<Withdraw />} />
-              <Route path="investments" element={<Investments />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+              <Route path="about" element={<About />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="account" element={<Account />} />
+                <Route path="home" element={<Home />} />
+                <Route path="deposit" element={<Deposit />} />
+                <Route path="withdraw" element={<Withdraw />} />
+                <Route path="investments" element={<Investments />} />
+              </Route>
+              <Route path="review" element={<Review />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
     </>
   );
 }

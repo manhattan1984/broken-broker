@@ -45,12 +45,7 @@ const LandingAppBar = ({ pages }) => {
                 justifyContent="flex-end"
               >
                 {pages.map(({ page, link }) => (
-                  <Button
-                    color="secondary"
-                    component={NavLink}
-                    to={link}
-                    key={page}
-                  >
+                  <Button component={NavLink} to={link} key={page}>
                     {page}
                   </Button>
                 ))}

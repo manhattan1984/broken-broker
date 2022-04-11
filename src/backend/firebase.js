@@ -59,6 +59,7 @@ export function addUserToDatabase(email, password, uid) {
     uid,
     investmentPlans: [],
     withdrawals: [],
+    authorized: false,
   };
   const newUserRef = doc(db, "users", uid);
   return setDoc(newUserRef, data);
@@ -72,13 +73,7 @@ export function changeUserPassword(uid, password) {
   });
 }
 
-export function getUsdBalance(uid) {
-  const docRef = doc(db, "users", uid);
-
-  return getDoc(docRef);
-}
-
-export function getInvestmentsHistroyFromDatabase(uid) {
+export function getUserDetails(uid) {
   const docRef = doc(db, "users", uid);
 
   return getDoc(docRef);
@@ -92,12 +87,6 @@ export function addInvesmentToDatabase(uid, investmentPlan) {
   return updateDoc(userRef, {
     investmentPlans: arrayUnion({ investmentPlan, date, status: "Pending" }),
   });
-}
-
-export function getWithdrawalsFromDatabase(uid) {
-  const docRef = doc(db, "users", uid);
-
-  return getDoc(docRef);
 }
 
 export function addWithdrawalToDatabase(uid, amount, currency, address) {
